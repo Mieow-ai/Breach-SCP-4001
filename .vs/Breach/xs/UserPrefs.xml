@@ -1,0 +1,73 @@
+﻿<Properties StartupConfiguration="{46FBB407-4353-D21A-29EB-74CABD3CCA67}|">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/SceneTransitionTrigger.cs">
+    <Files>
+      <File FileName="Assets/Scripts/AmbianceManager.cs" Line="44" Column="9" />
+      <File FileName="Assets/Scripts/Animate.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/BlinkEffect.cs" Line="102" Column="9" />
+      <File FileName="Assets/Scripts/BlinkingButton.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/CamcordeManager.cs" Line="26" Column="50" />
+      <File FileName="Assets/Scripts/CameraFollowHead.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/CreatureAnimatorController.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/CreatureAttackOnLook.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/SCP096Attack.cs" />
+      <File FileName="Assets/Scripts/FootStepsSCP096.cs" Line="1" Column="1" />
+      <File FileName="Assets/GameOver/UIFlicker.cs" />
+      <File FileName="Assets/MainMenu/MainMenu.cs" />
+      <File FileName="Assets/SettingsMenu/SettingsManager.cs" />
+      <File FileName="Assets/Scripts/GameSettings.cs" Line="12" Column="23" />
+      <File FileName="Assets/Scripts/AudioManager.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/PlayerHealth.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/LetterReader.cs" />
+      <File FileName="Assets/Scripts/PickUpBook.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/MTFAudio.cs" Line="69" Column="34" />
+      <File FileName="Assets/Scripts/ScenarioManager.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/SceneTransitionTrigger.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/RetroTerminalFinal.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/movements.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/FlashLightToggle.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/PickupBattery.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/BatteryInventory.cs" Line="10" Column="48" />
+      <File FileName="Assets/Scripts/UseBatteryInput.cs" />
+      <File FileName="Assets/Scripts/PickupItems.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Screamer3199.cs" />
+      <File FileName="Assets/Scripts/Screamer087.cs" />
+      <File FileName="Assets/Scripts/Script3199.cs" Line="49" Column="26" />
+      <File FileName="Assets/Scripts/AudioManager3199.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/SCP096screamer.cs" Line="30" Column="1" />
+      <File FileName="Assets/Scripts/ZoneFin.cs" />
+      <File FileName="Assets/Scripts/MainMenuMusic.cs" Line="15" Column="50" />
+      <File FileName="Assets/Scripts/SoundButton.cs" />
+      <File FileName="Assets/Scripts/FinalInteractiveTerminal.cs" Line="87" Column="1" />
+      <File FileName="Assets/Scripts/FlashLightUIController.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/FootSounds.cs" Line="26" Column="5" />
+      <File FileName="Assets/Scripts/NightVisionManager.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/RadioTextIntro.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/RageLightsController.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/RandomWander.cs" Line="1" Column="1" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="Breach" expanded="True">
+            <Node name="Assets" expanded="True">
+              <Node name="CutScene" expanded="True" />
+              <Node name="GameOver" expanded="True" />
+              <Node name="MainMenu" expanded="True" />
+              <Node name="Scripts" expanded="True">
+                <Node name="SceneTransitionTrigger.cs" selected="True" />
+              </Node>
+              <Node name="SettingsMenu" expanded="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="9f9efeca-ed14-4c89-afcf-32f9baaea121" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>

@@ -1,0 +1,25 @@
+# Unity generated files
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+UserSettings/
+
+# Autres fichiers système
+.DS_Store
+Thumbs.db
+
+# JetBrains IDEs
+.idea/
+
+# Visual Studio / VSCode
+.vscode/
+*.csproj
+*.sln
+*.user
+*.pidb
+
+# Unity auto-generated audio or video cache
+*.unitypackage
+
