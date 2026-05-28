@@ -3,15 +3,15 @@ using System.Collections;
 
 public class SCP096Attack : MonoBehaviour
 {
-    public Animator animator;             // Trigger "Attack"
-    public PlayerHealth playerHealth;     // Référence au script de santé du joueur
-    public float attackDelay = 1.5f;      // délai avant mort
-    [HideInInspector] public bool canAttack = false; // activé par SCP096Behavior pendant la charge
+    public Animator animator;
+    public PlayerHealth playerHealth;
+    public float attackDelay = 1.5f;
+    [HideInInspector] public bool canAttack = false;
 
     [Header("Screamer / Son")]
     public AudioClip screamSound;
     public AudioSource audioSource;
-    public Transform faceTarget; // point vers lequel on force la caméra du joueur
+    public Transform faceTarget;
 
     [Header("Références utiles")]
     public SCP096Behavior behaviorScript;
@@ -19,6 +19,9 @@ public class SCP096Attack : MonoBehaviour
     public SCP096Screamer screamerController;
 
     private bool hasAttacked = false;
+    
+    // Optimisation Hash Animator
+    private static readonly int AttackHash = Animator.StringToHash("Attack");
 
     void Start()
     {
@@ -28,50 +31,33 @@ public class SCP096Attack : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        Debug.Log($"Collision avec : {other.name} | Tag: {other.tag}");
         if (hasAttacked || !canAttack) return;
         if (!other.CompareTag("Player")) return;
 
         hasAttacked = true;
 
-        // Forcer extinction/lock de la lampe
-        FlashlightToggle flashlight = other.GetComponentInParent<FlashlightToggle>();
-        if (flashlight != null)
-            flashlight.ForceTurnOffAndLock();
+        // Mise en cache depuis la racine pour éviter plusieurs GetComponent coûteux
+        Transform playerRoot = other.transform.root;
 
-        // Screamer
-        if (screamerController != null)
-            screamerController.PlayScreamer();
+        FlashlightToggle flashlight = playerRoot.GetComponentInChildren<FlashlightToggle>();
+        if (flashlight != null) flashlight.ForceTurnOffAndLock();
 
-        // Animation d'attaque
-        if (animator != null)
-            animator.SetTrigger("Attack");
+        if (screamerController != null) screamerController.PlayScreamer();
+        if (animator != null) animator.SetTrigger(AttackHash);
+        if (behaviorScript != null) behaviorScript.StopMovement();
+        if (ambianceManager != null) ambianceManager.StopRageSound();
+        if (audioSource != null && screamSound != null) audioSource.PlayOneShot(screamSound);
 
-        // Stopper le mouvement de 096 (sécurité)
-        if (behaviorScript != null)
-            behaviorScript.StopMovement();
+        PlayerMovementWithFreelook player = playerRoot.GetComponentInChildren<PlayerMovementWithFreelook>();
+        if (player != null) player.StartLookAt(faceTarget != null ? faceTarget : transform);
 
-        // Stopper ambiance rage si présent
-        if (ambianceManager != null)
-            ambianceManager.StopRageSound();
-
-        // Jouer cri
-        if (audioSource != null && screamSound != null)
-            audioSource.PlayOneShot(screamSound);
-
-        // Forcer la caméra du joueur à regarder 096
-        PlayerMovementWithFreelook player = other.GetComponentInParent<PlayerMovementWithFreelook>();
-        if (player != null)
-            player.StartLookAt(faceTarget != null ? faceTarget : transform);
-
-        // Tuer le joueur après delay
-        if (playerHealth != null)
-            StartCoroutine(DelayedKill());
+        if (playerHealth != null) StartCoroutine(DelayedKill());
     }
 
     private IEnumerator DelayedKill()
     {
         yield return new WaitForSeconds(attackDelay);
-        if (playerHealth != null)
-            playerHealth.Die();
+        if (playerHealth != null) playerHealth.Die();
     }
 }

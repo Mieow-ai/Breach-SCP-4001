@@ -10,7 +10,7 @@ public class CamcorderUIManager : MonoBehaviour
     public TextMeshProUGUI clockText;
     public Image batteryBar;
     public TextMeshProUGUI playText;
-    public TextMeshProUGUI refillPromptText; // Nouveau TMP Text pour "Appuyez sur B pour recharger"
+    public TextMeshProUGUI refillPromptText;
 
     [Header("Battery Settings")]
     public float batteryLife = 100f;
@@ -23,10 +23,10 @@ public class CamcorderUIManager : MonoBehaviour
     public Sprite batteryEmpty;
 
     [Header("Flashlight")]
-    public FlashlightToggle flashlightScript; // 🔦 Script de la lampe torche
+    public FlashlightToggle flashlightScript;
 
     [Header("Inventory")]
-    public BatteryInventory batteryInventory; // Référence au stock
+    public BatteryInventory batteryInventory;
 
     private bool isRecording = true;
 
@@ -36,12 +36,11 @@ public class CamcorderUIManager : MonoBehaviour
         StartCoroutine(BlinkREC());
 
         if (refillPromptText != null)
-            refillPromptText.gameObject.SetActive(false); // Masqué par défaut
+            refillPromptText.gameObject.SetActive(false);
     }
 
     void Update()
     {
-        // Batterie se vide uniquement si lampe allumée et pas verrouillée
         if (flashlightScript != null && flashlightScript.IsFlashlightOnAndActive)
         {
             batteryLife -= drainRate * Time.deltaTime;
@@ -56,11 +55,9 @@ public class CamcorderUIManager : MonoBehaviour
             }
         }
 
-        // Toujours mettre à jour l'UI
         UpdateBatteryIcon();
         batteryBar.fillAmount = batteryLife / 100f;
 
-        // Affiche le message "Appuyez sur B..." si batterie vide et stock > 0
         if (refillPromptText != null && batteryLife <= 0f && batteryInventory != null && batteryInventory.batteryCount > 0)
         {
             refillPromptText.gameObject.SetActive(true);
@@ -68,16 +65,6 @@ public class CamcorderUIManager : MonoBehaviour
         else if (refillPromptText != null)
         {
             refillPromptText.gameObject.SetActive(false);
-        }
-
-        // Recharge si appuie sur B et stock > 0
-        if (Input.GetKeyDown(KeyCode.B) && batteryInventory != null)
-        {
-            if (batteryLife <= 0f && batteryInventory.batteryCount > 0)
-            {
-                batteryInventory.UseBattery(this, 25f); // Recharge 25%
-                flashlightScript.Unlock(); // Permet de rallumer la lampe
-            }
         }
 
         if (Input.GetKeyDown(KeyCode.R))
@@ -93,7 +80,8 @@ public class CamcorderUIManager : MonoBehaviour
     {
         while (true)
         {
-            recText.enabled = !recText.enabled;
+            if(recText != null)
+                recText.enabled = !recText.enabled;
             yield return new WaitForSeconds(0.5f);
         }
     }
@@ -106,21 +94,10 @@ public class CamcorderUIManager : MonoBehaviour
 
     void UpdateBatteryIcon()
     {
-        if (batteryLife > 75)
-            batteryBar.sprite = batteryFull;
-        else if (batteryLife > 25)
-            batteryBar.sprite = battery50;
-        else if (batteryLife > 5)
-            batteryBar.sprite = battery25;
-        else
-            batteryBar.sprite = batteryEmpty;
-    }
-
-    public void AddBattery(float amount)
-    {
-        batteryLife = Mathf.Clamp(batteryLife + amount, 0f, 100f);
-        UpdateBatteryIcon();
-        batteryBar.fillAmount = batteryLife / 100f;
+        if (batteryLife > 75) batteryBar.sprite = batteryFull;
+        else if (batteryLife > 25) batteryBar.sprite = battery50;
+        else if (batteryLife > 5) batteryBar.sprite = battery25;
+        else batteryBar.sprite = batteryEmpty;
     }
 
     public void RechargeBattery(float amount)

@@ -3,7 +3,7 @@ using TMPro;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager Instance;
+    public static GameManager Instance { get; private set; }
 
     private int dossiersCollectes = 0;
     public int totalDossiers = 5;
@@ -12,19 +12,23 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI livreCounterText;
 
     [Header("Audio")]
-    public AudioClip pickupSound;       // 🎵 le son de ramassage
-    private AudioSource audioSource;    // 🎧 pour le jouer
+    public AudioClip pickupSound;
+    private AudioSource audioSource;
 
     private void Awake()
     {
         if (Instance == null)
+        {
             Instance = this;
-        else
+            transform.SetParent(null);
+            DontDestroyOnLoad(gameObject);
+        }
+        else if (Instance != this)
+        {
             Destroy(gameObject);
+            return; // Stoppe l'exécution du Awake pour l'objet détruit
+        }
 
-        DontDestroyOnLoad(gameObject);
-
-        // Récupère (ou ajoute) un AudioSource sur ce GameObject
         audioSource = GetComponent<AudioSource>();
         if (audioSource == null)
             audioSource = gameObject.AddComponent<AudioSource>();
@@ -38,15 +42,10 @@ public class GameManager : MonoBehaviour
     public void AjouterDossier()
     {
         dossiersCollectes++;
-
-        // Mets à jour le texte
         MettreAJourUI();
 
-        // Joue le son si défini
         if (pickupSound != null && audioSource != null)
             audioSource.PlayOneShot(pickupSound);
-
-        Debug.Log("Dossiers récupérés : " + dossiersCollectes + "/" + totalDossiers);
     }
 
     public bool TousDossiersRecuperes()
@@ -58,8 +57,7 @@ public class GameManager : MonoBehaviour
     {
         if (livreCounterText != null)
         {
-            livreCounterText.text = "Vous avez recupere "
-                + dossiersCollectes + " / " + totalDossiers + " livres";
+            livreCounterText.text = $"Vous avez récupéré {dossiersCollectes} / {totalDossiers} livres";
         }
     }
 }

@@ -42,7 +42,6 @@ public class PlayerMovementWithFreelook : MonoBehaviour
     public float focusZoom = 35f;
 
     private float defaultFOV;
-    private bool isFocusing = false;
 
     // --- NEW: Player dead flag ---
     private bool isDead = false;
@@ -207,7 +206,6 @@ public class PlayerMovementWithFreelook : MonoBehaviour
     {
         lookTarget = target;
         isForcedLook = true;
-        isFocusing = true;
         StartCoroutine(ResetLookAfterDelay());
     }
 
@@ -215,7 +213,6 @@ public class PlayerMovementWithFreelook : MonoBehaviour
     {
         yield return new WaitForSeconds(focusDuration);
         isForcedLook = false;
-        isFocusing = false;
 
         if (playerCam != null)
             playerCam.fieldOfView = defaultFOV;

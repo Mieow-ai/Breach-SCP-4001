@@ -4,11 +4,11 @@ using TMPro;
 
 public class LetterReader : MonoBehaviour
 {
-    public static LetterReader Instance;
+    public static LetterReader Instance { get; private set; }
 
     [Header("UI")]
-    public GameObject blurPanel;        // Panel arrière-plan
-    public Image letterImage;           // Image de la lettre
+    public GameObject blurPanel;
+    public Image letterImage;
     public TextMeshProUGUI readPromptText;
     public KeyCode readKey = KeyCode.T;
 
@@ -18,8 +18,15 @@ public class LetterReader : MonoBehaviour
 
     void Awake()
     {
-        if (Instance == null) Instance = this;
-        else Destroy(gameObject);
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else if (Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
 
         if (blurPanel) blurPanel.SetActive(false);
         if (letterImage) letterImage.gameObject.SetActive(false);
@@ -47,23 +54,15 @@ public class LetterReader : MonoBehaviour
 
         if (Input.GetKeyDown(readKey))
         {
-            if (!isReading)
+            isReading = !isReading;
+            
+            if (blurPanel) blurPanel.SetActive(isReading);
+            if (letterImage)
             {
-                if (readPromptText) readPromptText.gameObject.SetActive(false);
-                if (blurPanel) blurPanel.SetActive(true);
-                if (letterImage)
-                {
-                    letterImage.sprite = currentLetterSprite;
-                    letterImage.gameObject.SetActive(true);
-                }
-                isReading = true;
+                letterImage.sprite = currentLetterSprite;
+                letterImage.gameObject.SetActive(isReading);
             }
-            else
-            {
-                if (blurPanel) blurPanel.SetActive(false);
-                if (letterImage) letterImage.gameObject.SetActive(false);
-                isReading = false;
-            }
+            if (readPromptText && isReading) readPromptText.gameObject.SetActive(false);
         }
     }
 }

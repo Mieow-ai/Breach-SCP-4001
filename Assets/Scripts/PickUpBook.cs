@@ -3,10 +3,10 @@ using UnityEngine;
 public class PickupBook : MonoBehaviour
 {
     public KeyCode pickupKey = KeyCode.E;
-    public GameObject promptObject; // Pour afficher "Appuyez sur E pour prendre"
+    public GameObject promptObject;
 
     [Header("Sound")]
-    public AudioClip pickupSound;       // Son à jouer lors du ramassage
+    public AudioClip pickupSound;
     private AudioSource audioSource;
 
     private bool playerInRange = false;
@@ -40,23 +40,22 @@ public class PickupBook : MonoBehaviour
         if (playerInRange && Input.GetKeyDown(pickupKey) && !hasBeenPicked)
         {
             hasBeenPicked = true;
-
             if (promptObject) promptObject.SetActive(false);
 
-            Debug.Log("Livre ramassé : " + gameObject.name);
-
-            // Jouer le son
             if (pickupSound != null && audioSource != null)
-            {
                 audioSource.PlayOneShot(pickupSound);
-            }
 
-            // Prévenir le GameManager
             GameManager.Instance.AjouterDossier();
 
-            // Détruire l’objet après la fin du son pour qu’il soit joué complètement
+            HideAndDisableObject();
             Destroy(gameObject, pickupSound != null ? pickupSound.length : 0f);
         }
+    }
+
+    private void HideAndDisableObject()
+    {
+        foreach (var rend in GetComponentsInChildren<Renderer>()) rend.enabled = false;
+        foreach (var col in GetComponentsInChildren<Collider>()) col.enabled = false;
     }
 }
 

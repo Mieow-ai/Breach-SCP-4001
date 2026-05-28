@@ -21,8 +21,13 @@ public class RandomWander : MonoBehaviour
 
         if (timer >= wanderInterval)
         {
-            Vector3 newPos = GetRandomNavMeshPosition(transform.position, wanderRadius);
-            agent.SetDestination(newPos);
+            // 🚨 NOUVEAU : On vérifie que l'agent existe, qu'il est actif ET qu'il est bien sur le NavMesh
+            if (agent != null && agent.isActiveAndEnabled && agent.isOnNavMesh)
+            {
+                Vector3 newPos = GetRandomNavMeshPosition(transform.position, wanderRadius);
+                agent.SetDestination(newPos);
+            }
+            
             timer = 0;
         }
     }

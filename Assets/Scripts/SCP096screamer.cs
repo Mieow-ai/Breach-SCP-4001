@@ -32,7 +32,6 @@ public class SCP096Screamer : MonoBehaviour
 
         if (!videoPlayer.isPrepared)
         {
-            // Si pas encore prêt, on attend la préparation
             videoPlayer.prepareCompleted += PlayPreparedVideo;
             videoPlayer.Prepare();
         }
@@ -40,6 +39,16 @@ public class SCP096Screamer : MonoBehaviour
         {
             PlayPreparedVideo(videoPlayer);
         }
+
+        // 🚨 NOUVEAU : Chrono de secours
+        StartCoroutine(FailsafeGameOver());
+    }
+
+    private IEnumerator FailsafeGameOver()
+    {
+        // Met la durée de la vidéo du screamer de 096 ici
+        yield return new WaitForSeconds(3f); 
+        SceneManager.LoadScene(gameOverSceneName);
     }
 
     private void PlayPreparedVideo(VideoPlayer vp)

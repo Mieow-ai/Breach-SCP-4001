@@ -2,12 +2,12 @@ using UnityEngine;
 
 public class PickupLetter : MonoBehaviour
 {
-    public Sprite letterSprite; // Assigner l'image de la feuille
+    public Sprite letterSprite;
     public KeyCode pickupKey = KeyCode.E;
-    public GameObject promptObject; // TMP ou TextMeshPro pour "E pour ramasser"
+    public GameObject promptObject;
 
     [Header("Sound")]
-    public AudioClip pickupSound;       // Son à jouer lors du ramassage
+    public AudioClip pickupSound;
     private AudioSource audioSource;
 
     private bool playerInRange = false;
@@ -41,22 +41,23 @@ public class PickupLetter : MonoBehaviour
         if (playerInRange && Input.GetKeyDown(pickupKey) && !hasBeenPicked)
         {
             hasBeenPicked = true;
-
             if (promptObject) promptObject.SetActive(false);
 
-            // Passe l'image au gestionnaire
             LetterReader.Instance.SetLetterSprite(letterSprite);
             LetterReader.Instance.ShowReadPromptOnce();
 
-            // Jouer le son
             if (pickupSound != null && audioSource != null)
-            {
                 audioSource.PlayOneShot(pickupSound);
-            }
 
-            // Détruire l’objet après la fin du son
+            HideAndDisableObject();
             Destroy(gameObject, pickupSound != null ? pickupSound.length : 0f);
         }
+    }
+
+    private void HideAndDisableObject()
+    {
+        foreach (var rend in GetComponentsInChildren<Renderer>()) rend.enabled = false;
+        foreach (var col in GetComponentsInChildren<Collider>()) col.enabled = false;
     }
 }
 

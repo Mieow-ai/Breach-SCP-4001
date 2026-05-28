@@ -4,10 +4,10 @@ public class PickupBattery : MonoBehaviour
 {
     [Header("Interaction")]
     public KeyCode pickupKey = KeyCode.E;
-    public GameObject promptObject; // "Appuyez sur E pour prendre"
+    public GameObject promptObject;
 
     [Header("Inventory")]
-    public BatteryInventory batteryInventory; // Référence au système de stockage
+    public BatteryInventory batteryInventory;
 
     [Header("Sound")]
     public AudioClip pickupSound;
@@ -44,22 +44,23 @@ public class PickupBattery : MonoBehaviour
         if (playerInRange && Input.GetKeyDown(pickupKey) && !hasBeenPicked)
         {
             hasBeenPicked = true;
-
             if (promptObject) promptObject.SetActive(false);
 
-            Debug.Log("Batterie ramassée : " + gameObject.name);
-
-            // Ajouter la batterie à l’inventaire
             if (batteryInventory != null)
                 batteryInventory.AddBatteryToInventory();
 
-            // Jouer le son
             if (pickupSound != null && audioSource != null)
                 audioSource.PlayOneShot(pickupSound);
 
-            // Détruire l’objet après la durée du son pour qu’il s’entende entièrement
+            HideAndDisableObject();
             Destroy(gameObject, pickupSound != null ? pickupSound.length : 0f);
         }
+    }
+
+    private void HideAndDisableObject()
+    {
+        foreach (var rend in GetComponentsInChildren<Renderer>()) rend.enabled = false;
+        foreach (var col in GetComponentsInChildren<Collider>()) col.enabled = false;
     }
 }
 
